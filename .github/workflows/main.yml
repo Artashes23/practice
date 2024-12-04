@@ -28,8 +28,6 @@ jobs:
         run: |
           cd express-mock-interview
           npx nodemon index.js &
-        env:
-          PORT: 3000
 
       - name: Install dependencies for frontend
         run: |
