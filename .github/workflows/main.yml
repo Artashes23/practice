@@ -1,4 +1,4 @@
-name: Backend and Cypress Tests
+name: Backend, Frontend, and Cypress Tests
 
 on:
   push:
@@ -18,26 +18,39 @@ jobs:
         with:
           node-version: 16
 
+      - name: Cache Cypress binary
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/Cypress
+          key: ${{ runner.os }}-cypress-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-cypress-
+
       - name: Install dependencies for backend
         run: |
           cd express-mock-interview
           npm install
-          npm install nodemon --save-dev
 
       - name: Start backend server
         run: |
           cd express-mock-interview
           npx nodemon index.js &
+        env:
+          PORT: 3000
 
       - name: Install dependencies for frontend
         run: |
           cd fe-test-task
           npm install
           npm start &
+      
+      - name: Install dependencies for Cypress tests
+        run: |
+          cd testing
+          npm install
+          npx cypress install
 
       - name: Run Cypress tests
         run: |
           cd testing
-          npm install
           npx cypress run
-
