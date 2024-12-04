@@ -42,7 +42,7 @@ jobs:
         run: |
           cd fe-test-task
           npm install
-          npm start &
+          npm run dev &
       
       - name: Install dependencies for Cypress tests
         run: |
